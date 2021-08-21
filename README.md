@@ -1,3 +1,3 @@
 # Squeedometer
 
-A speedmeter of Minecraft.
+A speedometer for Minecraft.
