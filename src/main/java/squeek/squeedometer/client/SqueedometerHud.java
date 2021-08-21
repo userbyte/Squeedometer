@@ -1,52 +1,67 @@
 package squeek.squeedometer.client;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.DrawableHelper;
-// import net.minecraft.text.Text;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
 @Environment(EnvType.CLIENT)
-public class SqueedometerHud extends DrawableHelper {
-    protected static final Logger LOGGER = LogManager.getLogger();
+public class SqueedometerHud {
+    private final int RED = 0xFF0000;
+    private final int GREEN = 0x00FF00;
+    private final int WHITE = 0xFFFFFF;
     private MinecraftClient client;
     private TextRenderer textRenderer;
 
-    // public SqueedometerHud(MinecraftClient client) {
-    //     this.client = client;
-    //     this.textRenderer = client.textRenderer;
-    // }
-    public SqueedometerHud() {
+    private int color = WHITE;
+    private int vertColor = WHITE;
+    private double lastFrameSpeed = 0.0;
+    private double lastFrameVertSpeed = 0.0;
+    private float tickCounter = 0.0f;
 
-    }
-    // private void updateValues() {
-    //     return;
-    // }
-
-    private void draw() {
+    public void draw(MatrixStack matrixStack, float tickDelta) {
         this.client = MinecraftClient.getInstance();
         this.textRenderer = client.textRenderer;
         // Calculating Speed
         Vec3d playerPosVec = client.player.getPos();
         double travelledX = playerPosVec.x - client.player.prevX;
         double travelledZ = playerPosVec.z - client.player.prevZ;
-        double currentSpeed = MathHelper.sqrt(travelledX * travelledX + travelledZ * travelledZ);
-        // LOGGER.info("posX, posY, posZ = ({}, {}, {})", playerPosVec.x, playerPosVec.y, playerPosVec.z);
-        // LOGGER.info("prevX, prevY, prevZ = ({}, {}, {})", client.player.prevX, client.player.prevY, client.player.prevZ);
+        double currentSpeed = (double)MathHelper.sqrt((float)(travelledX * travelledX + travelledZ * travelledZ));
+        double currentVertSpeed = playerPosVec.y - client.player.prevY;
 
-        String currentSpeedText = String.format("%.2f blocks/sec", currentSpeed / 0.05F);
+        // Every tick determine if speeds are increasing or decreasing and set color accordingly   
+        tickCounter += tickDelta;
+        if (tickCounter >= 1.0f) {
+            if (currentSpeed < lastFrameSpeed) {
+                color = RED;
+            } else if (currentSpeed > lastFrameSpeed) {
+                color = GREEN;
+            } else {
+                color = WHITE;
+            }
 
-        // String aligntmentX = "bottom";
+            if (currentVertSpeed < lastFrameVertSpeed) {
+                vertColor = RED;
+            } else if (currentVertSpeed > lastFrameVertSpeed) {
+                vertColor = GREEN;
+            } else {
+                vertColor = WHITE;
+            }
 
-        int width = this.textRenderer.getStringWidth(currentSpeedText);
+            lastFrameSpeed = currentSpeed;
+            lastFrameVertSpeed = currentVertSpeed;
+            tickCounter = 0.0f;
+        }
+
+        // Convert speeds to text
+        String currentVertSpeedText = String.format("Vertical: %.2f blocks/sec", currentVertSpeed / 0.05F);
+        String currentSpeedText = String.format("Horizontal: %.2f blocks/sec", currentSpeed / 0.05F);
+
+        // Calculate text position
+        int width = this.textRenderer.getWidth(currentSpeedText);
         int height = this.textRenderer.fontHeight;
         int paddingX = 2;
         int paddingY = 2;
@@ -56,27 +71,15 @@ public class SqueedometerHud extends DrawableHelper {
         int top = 0 + marginY;
         int realHeight = height + paddingY * 2 - 1;
 
-        // left += client.getWindows().getScaledWidth();
         top += client.getWindow().getScaledHeight() - marginY * 2 - realHeight;
-
-        // client
 
         left += paddingX;
         top += paddingY;
+        
+        // Render the text
+        this.textRenderer.drawWithShadow(matrixStack, currentVertSpeedText, left, top - 10, vertColor);
+        this.textRenderer.drawWithShadow(matrixStack, currentSpeedText, left, top, color);
 
-        // LOGGER.info("currentSpeed = {}", currentSpeed);
-
-        // TODO: Drawbox
-        // FIXME: Text Position
-        // RenderSystem.pushMatrix();
-        // // this.speedText = new LiteralText(String.format("%.2f", currentSpeed));
-        // fill(5, 5, 15, 15, 0xFFFFFF);
-        this.drawString(this.textRenderer, currentSpeedText, left, top, 14737632);
-        // RenderSystem.popMatrix();
         return;
-    }
-
-    public void render() {
-        this.draw();
     }
 }

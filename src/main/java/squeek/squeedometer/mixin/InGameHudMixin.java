@@ -8,12 +8,12 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.client.gui.hud.InGameHud;
+import net.minecraft.client.util.math.MatrixStack;
 
 @Mixin(InGameHud.class)
 public class InGameHudMixin {
-
-    @Inject(at = @At("TAIL"), method = "render()V")
-    private void renderSqueedometerHud(CallbackInfo info) {
-        Squeedometer.squeedometerHud.render();
+    @Inject(at = @At("TAIL"), method = "render(Lnet/minecraft/client/util/math/MatrixStack;F)V")
+    private void renderSqueedometerHud(MatrixStack matrices, float tickDelta, CallbackInfo info) {
+        Squeedometer.squeedometerHud.draw(matrices, tickDelta);
     }
 }

@@ -3,10 +3,10 @@
   "id": "squeedometer",
   "version": "${version}",
 
-  "name": "Example Mod",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "name": "Squeedometer",
+  "description": "Displays your movement speed",
   "authors": [
-    "squeek", "mkpoli"
+    "squeek", "mkpoli", "Queueue_"
   ],
   "contact": {
     "homepage": "https://fabricmc.net/",
@@ -27,9 +27,10 @@
   ],
 
   "depends": {
-    "fabricloader": ">=0.7.2",
+    "fabricloader": ">=0.11.3",
     "fabric": "*",
-    "minecraft": "1.15.x"
+    "minecraft": "1.17.x",
+    "java": ">=16"
   },
   "suggests": {
     "flamingo": "*"
