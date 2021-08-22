@@ -4,6 +4,7 @@ import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
 import net.fabricmc.api.ClientModInitializer;
 import squeek.squeedometer.client.SqueedometerHud;
+import squeek.squeedometer.config.ConfigWrapper;
 import squeek.squeedometer.config.SqueedometerConfig;
 
 public class Squeedometer implements ClientModInitializer {
@@ -14,8 +15,7 @@ public class Squeedometer implements ClientModInitializer {
 	public void onInitializeClient() {
 		System.out.println("[Squeedometer] Loaded");
 
-		String MOD_NAME = "Squeedometer";
 		AutoConfig.register(SqueedometerConfig.class, JanksonConfigSerializer::new);
-		squeedometerHud.loadConfig(); 
+		ConfigWrapper.loadConfig(); 
 	}
 }
