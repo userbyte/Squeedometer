@@ -1,5 +1,6 @@
 package squeek.squeedometer.client;
 
+import me.shedaniel.autoconfig.AutoConfig;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
@@ -7,20 +8,30 @@ import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import squeek.squeedometer.config.SqueedometerConfig;
 
 @Environment(EnvType.CLIENT)
 public class SqueedometerHud {
+    // Constants
     private final int RED = 0xFF0000;
     private final int GREEN = 0x00FF00;
     private final int WHITE = 0xFFFFFF;
+
+    // Vars
     private MinecraftClient client;
     private TextRenderer textRenderer;
+
+    private SqueedometerConfig config;
 
     private int color = WHITE;
     private int vertColor = WHITE;
     private double lastFrameSpeed = 0.0;
     private double lastFrameVertSpeed = 0.0;
     private float tickCounter = 0.0f;
+
+    public void loadConfig() {
+        config = AutoConfig.getConfigHolder(SqueedometerConfig.class).getConfig();
+    }
 
     public void draw(MatrixStack matrixStack, float tickDelta) {
         this.client = MinecraftClient.getInstance();
@@ -32,28 +43,30 @@ public class SqueedometerHud {
         double currentSpeed = (double)MathHelper.sqrt((float)(travelledX * travelledX + travelledZ * travelledZ));
         double currentVertSpeed = playerPosVec.y - client.player.prevY;
 
-        // Every tick determine if speeds are increasing or decreasing and set color accordingly   
-        tickCounter += tickDelta;
-        if (tickCounter >= 1.0f) {
-            if (currentSpeed < lastFrameSpeed) {
-                color = RED;
-            } else if (currentSpeed > lastFrameSpeed) {
-                color = GREEN;
-            } else {
-                color = WHITE;
-            }
+        if (config.changeColors) {
+            // Every tick determine if speeds are increasing or decreasing and set color accordingly   
+            tickCounter += tickDelta;
+            if (tickCounter >= 1.0f) {
+                if (currentSpeed < lastFrameSpeed) {
+                    color = RED;
+                } else if (currentSpeed > lastFrameSpeed) {
+                    color = GREEN;
+                } else {
+                    color = WHITE;
+                }
 
-            if (currentVertSpeed < lastFrameVertSpeed) {
-                vertColor = RED;
-            } else if (currentVertSpeed > lastFrameVertSpeed) {
-                vertColor = GREEN;
-            } else {
-                vertColor = WHITE;
-            }
+                if (currentVertSpeed < lastFrameVertSpeed) {
+                    vertColor = RED;
+                } else if (currentVertSpeed > lastFrameVertSpeed) {
+                    vertColor = GREEN;
+                } else {
+                    vertColor = WHITE;
+                }
 
-            lastFrameSpeed = currentSpeed;
-            lastFrameVertSpeed = currentVertSpeed;
-            tickCounter = 0.0f;
+                lastFrameSpeed = currentSpeed;
+                lastFrameVertSpeed = currentVertSpeed;
+                tickCounter = 0.0f;
+            }
         }
 
         // Convert speeds to text
@@ -61,7 +74,6 @@ public class SqueedometerHud {
         String currentSpeedText = String.format("Horizontal: %.2f blocks/sec", currentSpeed / 0.05F);
 
         // Calculate text position
-        int width = this.textRenderer.getWidth(currentSpeedText);
         int height = this.textRenderer.fontHeight;
         int paddingX = 2;
         int paddingY = 2;

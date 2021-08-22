@@ -9,8 +9,8 @@
     "squeek", "mkpoli", "Queueue_"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "homepage": "https://github.com/Queueue0/Squeedometer/releases/",
+    "sources": "https://github.com/Queueue0/Squeedometer"
   },
 
   "license": "CC0-1.0",
@@ -20,6 +20,9 @@
   "entrypoints": {
     "client": [
       "squeek.squeedometer.Squeedometer"
+    ],
+    "modmenu": [
+      "squeek.squeedometer.config.ModMenuIntegration"
     ]
   },
   "mixins": [
