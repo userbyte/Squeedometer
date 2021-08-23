@@ -8,20 +8,17 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import squeek.squeedometer.config.ConfigWrapper;
+import squeek.squeedometer.config.SqueedometerConfig.Position;
 
 @Environment(EnvType.CLIENT)
 public class SqueedometerHud {
-    // Constants
-    private final int RED = 0xFF0000;
-    private final int GREEN = 0x00FF00;
-    private final int WHITE = 0xFFFFFF;
-
+    
     // Vars
     private MinecraftClient client;
     private TextRenderer textRenderer;
 
-    private int color = WHITE;
-    private int vertColor = WHITE;
+    private int color = ConfigWrapper.config.textColor;
+    private int vertColor = ConfigWrapper.config.textColor;
     private double lastFrameSpeed = 0.0;
     private double lastFrameVertSpeed = 0.0;
     private float tickCounter = 0.0f;
@@ -29,6 +26,7 @@ public class SqueedometerHud {
     public void draw(MatrixStack matrixStack, float tickDelta) {
         this.client = MinecraftClient.getInstance();
         this.textRenderer = client.textRenderer;
+
         // Calculating Speed
         Vec3d playerPosVec = client.player.getPos();
         double travelledX = playerPosVec.x - client.player.prevX;
@@ -41,19 +39,19 @@ public class SqueedometerHud {
             tickCounter += tickDelta;
             if (tickCounter >= (float)ConfigWrapper.config.tickInterval) {
                 if (currentSpeed < lastFrameSpeed) {
-                    color = RED;
+                    color = ConfigWrapper.config.deceleratingColor;
                 } else if (currentSpeed > lastFrameSpeed) {
-                    color = GREEN;
+                    color = ConfigWrapper.config.acceleratingColor;
                 } else {
-                    color = WHITE;
+                    color = ConfigWrapper.config.textColor;
                 }
 
                 if (currentVertSpeed < lastFrameVertSpeed) {
-                    vertColor = RED;
+                    vertColor = ConfigWrapper.config.deceleratingColor;
                 } else if (currentVertSpeed > lastFrameVertSpeed) {
-                    vertColor = GREEN;
+                    vertColor = ConfigWrapper.config.acceleratingColor;
                 } else {
-                    vertColor = WHITE;
+                    vertColor = ConfigWrapper.config.textColor;
                 }
 
                 lastFrameSpeed = currentSpeed;
@@ -72,22 +70,63 @@ public class SqueedometerHud {
             currentSpeedText = String.format("%.2f blocks/sec", currentSpeed / 0.05F);
         }
         // Calculate text position
+        int horizWidth = this.textRenderer.getWidth(currentSpeedText);
+        int vertWidth = this.textRenderer.getWidth(currentVertSpeedText);
         int height = this.textRenderer.fontHeight;
         int paddingX = 2;
         int paddingY = 2;
         int marginX = 4;
         int marginY = 4;
         int left = 0 + marginX;
+        int vertLeft = 0 + marginX;
         int top = 0 + marginY;
+        int realHorizWidth = horizWidth + paddingX * 2 - 1;
+        int realVertWidth = vertWidth + paddingX * 2 - 1;
         int realHeight = height + paddingY * 2 - 1;
 
-        top += client.getWindow().getScaledHeight() - marginY * 2 - realHeight;
+        if (ConfigWrapper.config.position == Position.BOTTOM_LEFT) {
+            top += client.getWindow().getScaledHeight() - marginY * 2 - realHeight;
 
-        left += paddingX;
-        top += paddingY;
+            left += paddingX;
+            vertLeft += paddingX;
+            top += paddingY;
+        }
+
+        if (ConfigWrapper.config.position == Position.BOTTOM_RIGHT) {
+            top += client.getWindow().getScaledHeight() - marginY * 2 - realHeight;
+            left += client.getWindow().getScaledWidth() - marginX * 2 - realHorizWidth;
+            vertLeft += client.getWindow().getScaledWidth() - marginX * 2 - realVertWidth;
+
+            left += paddingX;
+            vertLeft += paddingX;
+            top += paddingY;
+        }
+
+        if (ConfigWrapper.config.position == Position.TOP_LEFT) {
+            left += paddingX;
+            vertLeft += paddingX;
+            top += paddingY;
+
+            if (ConfigWrapper.config.showVertical) {
+                top += 10;
+            }
+        }
+
+        if (ConfigWrapper.config.position == Position.TOP_RIGHT) {
+            left += client.getWindow().getScaledWidth() - marginX * 2 - realHorizWidth;
+            vertLeft += client.getWindow().getScaledWidth() - marginX * 2 - realVertWidth;
+
+            left += paddingX;
+            vertLeft += paddingX;
+            top += paddingY;
+
+            if (ConfigWrapper.config.showVertical) {
+                top += 10;
+            }
+        }
         
         // Render the text
-        this.textRenderer.drawWithShadow(matrixStack, currentVertSpeedText, left, top - 10, vertColor);
+        this.textRenderer.drawWithShadow(matrixStack, currentVertSpeedText, vertLeft, top - 10, vertColor);
         this.textRenderer.drawWithShadow(matrixStack, currentSpeedText, left, top, color);
 
         return;

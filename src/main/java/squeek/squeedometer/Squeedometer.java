@@ -9,13 +9,14 @@ import squeek.squeedometer.config.SqueedometerConfig;
 
 public class Squeedometer implements ClientModInitializer {
 
-	public static SqueedometerHud squeedometerHud = new SqueedometerHud();
+	public static SqueedometerHud squeedometerHud;
 
 	@Override
 	public void onInitializeClient() {
 		System.out.println("[Squeedometer] Loaded");
 
 		AutoConfig.register(SqueedometerConfig.class, JanksonConfigSerializer::new);
-		ConfigWrapper.loadConfig(); 
+		ConfigWrapper.loadConfig();
+		squeedometerHud = new SqueedometerHud(); 
 	}
 }
