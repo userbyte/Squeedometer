@@ -23,9 +23,12 @@ public class SqueedometerHud {
     private double lastFrameVertSpeed = 0.0;
     private float tickCounter = 0.0f;
 
-    public void draw(MatrixStack matrixStack, float tickDelta) {
-        this.client = MinecraftClient.getInstance();
+    public SqueedometerHud(MinecraftClient client) {
+        this.client = client;
         this.textRenderer = client.textRenderer;
+    }
+
+    public void draw(MatrixStack matrixStack, float tickDelta) {
 
         // Calculating Speed
         Vec3d playerPosVec = client.player.getPos();
@@ -124,7 +127,7 @@ public class SqueedometerHud {
                 top += 10;
             }
         }
-        
+
         // Render the text
         this.textRenderer.drawWithShadow(matrixStack, currentVertSpeedText, vertLeft, top - 10, vertColor);
         this.textRenderer.drawWithShadow(matrixStack, currentSpeedText, left, top, color);
