@@ -5,5 +5,9 @@
     "text.autoconfig.squeedometer.option.changeColors": "Enable changing text color",
     "text.autoconfig.squeedometer.option.tickInterval": "Color update rate",
     "text.autoconfig.squeedometer.option.tickInterval.@Tooltip[0]": "Higher values will prevent the colors from flashing,", 
-    "text.autoconfig.squeedometer.option.tickInterval.@Tooltip[1]": "but may introduce some latency to the color changing effect"
+    "text.autoconfig.squeedometer.option.tickInterval.@Tooltip[1]": "but may introduce some latency to the color changing effect",
+    "text.autoconfig.squeedometer.option.textColor": "Text color",
+    "text.autoconfig.squeedometer.option.acceleratingColor": "Accelerating text color",
+    "text.autoconfig.squeedometer.option.deceleratingColor": "Decelerating text color",
+    "text.autoconfig.squeedometer.option.position": "Position"
 }
