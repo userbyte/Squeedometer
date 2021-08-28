@@ -16,7 +16,7 @@
   "license": "CC0-1.0",
   "icon": "assets/squeedometer/icon.png",
 
-  "environment": "*",
+  "environment": "client",
   "entrypoints": {
     "client": [
       "squeek.squeedometer.Squeedometer"
@@ -33,7 +33,11 @@
     "fabricloader": ">=0.11.3",
     "fabric": "*",
     "minecraft": "1.17.x",
-    "java": ">=16"
+    "java": ">=16",
+    "cloth-config2": ">=5.0.38"
+  },
+  "recommends": {
+    "modmenu": ">=2.0.5"
   },
   "suggests": {
     "flamingo": "*"
