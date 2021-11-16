@@ -64,10 +64,10 @@ public class SqueedometerHud {
         String currentSpeedText = "";
         // Convert speeds to text
         if (ConfigWrapper.config.showVertical) {
-            currentVertSpeedText = String.format("Vertical: %.2f blocks/sec", currentVertSpeed / 0.05F);
-            currentSpeedText = String.format("Horizontal: %.2f blocks/sec", currentSpeed / 0.05F);
+            currentVertSpeedText = String.format("Vertical: %s", SpeedCalculator.speedText(currentVertSpeed, ConfigWrapper.config.speedUnit));
+            currentSpeedText = String.format("Horizontal: %s", SpeedCalculator.speedText(currentSpeed, ConfigWrapper.config.speedUnit));
         } else {
-            currentSpeedText = String.format("%.2f blocks/sec", currentSpeed / 0.05F);
+            currentSpeedText = SpeedCalculator.speedText(currentSpeed, ConfigWrapper.config.speedUnit);
         }
         // Calculate text position
         int horizWidth = this.textRenderer.getWidth(currentSpeedText);

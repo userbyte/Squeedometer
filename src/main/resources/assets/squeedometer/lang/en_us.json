@@ -9,5 +9,6 @@
     "text.autoconfig.squeedometer.option.textColor": "Text color",
     "text.autoconfig.squeedometer.option.acceleratingColor": "Accelerating text color",
     "text.autoconfig.squeedometer.option.deceleratingColor": "Decelerating text color",
-    "text.autoconfig.squeedometer.option.position": "Position"
+    "text.autoconfig.squeedometer.option.position": "Position",
+    "text.autoconfig.squeedometer.option.speedUnit": "Speed Unit"
 }
