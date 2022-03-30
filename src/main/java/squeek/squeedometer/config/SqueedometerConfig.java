@@ -29,10 +29,18 @@ public class SqueedometerConfig implements ConfigData {
     @ConfigEntry.Gui.EnumHandler(option = ConfigEntry.Gui.EnumHandler.EnumDisplayOption.BUTTON)
     public Position position = Position.BOTTOM_LEFT;
 
+    @ConfigEntry.Gui.EnumHandler(option = ConfigEntry.Gui.EnumHandler.EnumDisplayOption.BUTTON)
+    public SpeedUnit speedUnit = SpeedUnit.BLOCKS_PER_SECOND;
+
     public static enum Position {
         BOTTOM_LEFT,
         BOTTOM_RIGHT,
         TOP_LEFT,
         TOP_RIGHT
+    }
+
+    public static enum SpeedUnit {
+        BLOCKS_PER_SECOND,
+        KILOMETERS_PER_HOUR
     }
 }
