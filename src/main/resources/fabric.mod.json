@@ -30,14 +30,14 @@
   ],
 
   "depends": {
-    "fabricloader": ">=0.11.3",
+    "fabricloader": ">=0.14.7",
     "fabric": "*",
-    "minecraft": "1.18.x",
-    "java": ">=16",
-    "cloth-config2": ">=5.0.38"
+    "minecraft": "1.19.x",
+    "java": ">=17",
+    "cloth-config2": ">=7.0.72"
   },
   "recommends": {
-    "modmenu": ">=3.2.2"
+    "modmenu": ">=4.0.0"
   },
   "suggests": {
     "flamingo": "*"
