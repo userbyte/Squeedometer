@@ -145,6 +145,9 @@ public class SqueedometerHud {
         if (ConfigWrapper.config.position == Position.BELOW_CROSSHAIR) {
             top += client.getWindow().getScaledHeight()/2 - marginY * 2 - realHeight;
             top += 25;
+            if (ConfigWrapper.config.showVertical) {
+                top += 10;
+            }
         }
 
         if (ConfigWrapper.config.hideWhenZero) {
