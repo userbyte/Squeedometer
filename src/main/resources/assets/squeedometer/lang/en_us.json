@@ -3,6 +3,7 @@
     "text.autoconfig.squeedometer.option.enabled": "Mod enabled",
     "text.autoconfig.squeedometer.option.showVertical": "Show vertical speed",
     "text.autoconfig.squeedometer.option.changeColors": "Enable changing text color",
+    "text.autoconfig.squeedometer.option.hideWhenZero": "Hide when zero",
     "text.autoconfig.squeedometer.option.tickInterval": "Color update rate",
     "text.autoconfig.squeedometer.option.tickInterval.@Tooltip[0]": "Higher values will prevent the colors from flashing,", 
     "text.autoconfig.squeedometer.option.tickInterval.@Tooltip[1]": "but may introduce some latency to the color changing effect",

@@ -12,6 +12,7 @@ public class SqueedometerConfig implements ConfigData {
     public boolean enabled = true;
     public boolean showVertical = false;
     public boolean changeColors = true;
+    public boolean hideWhenZero = false;
 
     @ConfigEntry.BoundedDiscrete(max = 100, min = 1)
     @ConfigEntry.Gui.Tooltip(count = 2)
@@ -30,17 +31,21 @@ public class SqueedometerConfig implements ConfigData {
     public Position position = Position.BOTTOM_LEFT;
 
     @ConfigEntry.Gui.EnumHandler(option = ConfigEntry.Gui.EnumHandler.EnumDisplayOption.BUTTON)
-    public SpeedUnit speedUnit = SpeedUnit.BLOCKS_PER_SECOND;
+    public SpeedUnit speedUnit = SpeedUnit.METERS_PER_SECOND;
 
     public static enum Position {
         BOTTOM_LEFT,
         BOTTOM_RIGHT,
+        BOTTOM_MIDDLE,
         TOP_LEFT,
-        TOP_RIGHT
+        TOP_RIGHT,
+        TOP_MIDDLE,
+        ABOVE_CROSSHAIR,
+        BELOW_CROSSHAIR
     }
 
     public static enum SpeedUnit {
-        BLOCKS_PER_SECOND,
+        METERS_PER_SECOND,
         KILOMETERS_PER_HOUR
     }
 }

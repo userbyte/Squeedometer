@@ -104,6 +104,11 @@ public class SqueedometerHud {
             top += paddingY;
         }
 
+        if (ConfigWrapper.config.position == Position.BOTTOM_MIDDLE) {
+            top += client.getWindow().getScaledHeight() - marginY * 2 - realHeight;
+            top -= 45; // adjust top var so text is above hotbar
+        }
+
         if (ConfigWrapper.config.position == Position.TOP_LEFT) {
             left += paddingX;
             vertLeft += paddingX;
@@ -130,7 +135,45 @@ public class SqueedometerHud {
         // Render the text
         context.drawTextWithShadow(this.textRenderer, currentVertSpeedText, vertLeft, top - 10, vertColor);
         context.drawTextWithShadow(this.textRenderer, currentSpeedText, left, top, color);
+        if (ConfigWrapper.config.position == Position.TOP_MIDDLE) {
+            top += paddingY;
 
+            if (ConfigWrapper.config.showVertical) {
+                top += 10;
+            }
+        }
+
+        if (ConfigWrapper.config.position == Position.ABOVE_CROSSHAIR) {
+            top += client.getWindow().getScaledHeight()/2 - marginY * 2 - realHeight;
+        }
+
+        if (ConfigWrapper.config.position == Position.BELOW_CROSSHAIR) {
+            top += client.getWindow().getScaledHeight()/2 - marginY * 2 - realHeight;
+            top += 25;
+        }
+
+        if (ConfigWrapper.config.hideWhenZero) {
+            // if hideWhenZero is enabled, and both currentVertSpeed and currentSpeed
+            if (ConfigWrapper.config.showVertical) {
+                // only check if both are 0 if showVertical is enabled
+                // this prevents the shit from being shown when vertical speed is not 0, but horizontal speed is
+                if (currentVertSpeed == 0 && currentSpeed == 0) { return; }
+            } else {
+                // if showVertical is not enabled, dont even bother checking its speed
+                if (currentSpeed == 0) { return; }
+            }
+        }
+
+        // Render the text
+        if (ConfigWrapper.config.position == Position.TOP_MIDDLE | ConfigWrapper.config.position == Position.BOTTOM_MIDDLE | ConfigWrapper.config.position == Position.ABOVE_CROSSHAIR | ConfigWrapper.config.position == Position.BELOW_CROSSHAIR) {
+            // if the position is a centered position, do this shit
+            this.textRenderer.drawWithShadow(matrixStack, currentVertSpeedText, client.getWindow().getScaledWidth()/2 - vertWidth/2, top - 10, vertColor);
+            this.textRenderer.drawWithShadow(matrixStack, currentSpeedText, client.getWindow().getScaledWidth()/2 - horizWidth/2, top, color);
+        } else {
+            // if the position is left/right justified, pass in the calculated position variables
+            this.textRenderer.drawWithShadow(matrixStack, currentVertSpeedText, vertLeft, top - 10, vertColor);
+            this.textRenderer.drawWithShadow(matrixStack, currentSpeedText, left, top, color);   
+        }
         return;
     }
 }
