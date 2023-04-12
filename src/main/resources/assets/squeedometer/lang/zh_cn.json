@@ -1,0 +1,14 @@
+{
+    "text.autoconfig.squeedometer.title": "Squeedometer 选项",
+    "text.autoconfig.squeedometer.option.enabled": "启用模组",
+    "text.autoconfig.squeedometer.option.showVertical": "显示垂直速度",
+    "text.autoconfig.squeedometer.option.changeColors": "启用文本变色",
+    "text.autoconfig.squeedometer.option.tickInterval": "颜色更新时间间隔",
+    "text.autoconfig.squeedometer.option.tickInterval.@Tooltip[0]": "较高的值可以防止颜色闪烁，", 
+    "text.autoconfig.squeedometer.option.tickInterval.@Tooltip[1]": "但可能会给变色效果带来一些延迟",
+    "text.autoconfig.squeedometer.option.textColor": "文本颜色",
+    "text.autoconfig.squeedometer.option.acceleratingColor": "加速时的文本颜色",
+    "text.autoconfig.squeedometer.option.deceleratingColor": "减速时的文本颜色",
+    "text.autoconfig.squeedometer.option.position": "位置",
+    "text.autoconfig.squeedometer.option.speedUnit": "速度单位"
+}
