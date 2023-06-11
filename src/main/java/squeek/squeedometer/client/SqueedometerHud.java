@@ -128,8 +128,7 @@ public class SqueedometerHud {
         }
 
         // Render the text
-        //this.textRenderer.drawWithShadow(matrixStack, currentVertSpeedText, vertLeft, top - 10, vertColor);
-        //this.textRenderer.drawWithShadow(matrixStack, currentSpeedText, left, top, color);
+        context.drawTextWithShadow(this.textRenderer, currentVertSpeedText, vertLeft, top - 10, vertColor);
         context.drawTextWithShadow(this.textRenderer, currentSpeedText, left, top, color);
 
         return;
