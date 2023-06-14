@@ -5,6 +5,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import squeek.squeedometer.config.ConfigWrapper;
@@ -23,7 +24,8 @@ public class SqueedometerHud {
     private double lastFrameVertSpeed = 0.0;
     private float tickCounter = 0.0f;
 
-    public void draw(MatrixStack matrixStack, float tickDelta) {
+    public void draw(DrawContext context, float tickDelta) {
+        MatrixStack matrixStack = context.getMatrices();
         this.client = MinecraftClient.getInstance();
         this.textRenderer = client.textRenderer;
 
@@ -126,8 +128,8 @@ public class SqueedometerHud {
         }
 
         // Render the text
-        this.textRenderer.drawWithShadow(matrixStack, currentVertSpeedText, vertLeft, top - 10, vertColor);
-        this.textRenderer.drawWithShadow(matrixStack, currentSpeedText, left, top, color);
+        context.drawTextWithShadow(this.textRenderer, currentVertSpeedText, vertLeft, top - 10, vertColor);
+        context.drawTextWithShadow(this.textRenderer, currentSpeedText, left, top, color);
 
         return;
     }
