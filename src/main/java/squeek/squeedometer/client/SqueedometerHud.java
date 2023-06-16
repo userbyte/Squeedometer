@@ -170,12 +170,12 @@ public class SqueedometerHud {
         // Render the text
         if (ConfigWrapper.config.position == Position.TOP_MIDDLE | ConfigWrapper.config.position == Position.BOTTOM_MIDDLE | ConfigWrapper.config.position == Position.ABOVE_CROSSHAIR | ConfigWrapper.config.position == Position.BELOW_CROSSHAIR) {
             // if the position is a centered position, do this shit
-            this.textRenderer.drawWithShadow(matrixStack, currentVertSpeedText, client.getWindow().getScaledWidth()/2 - vertWidth/2, top - 10, vertColor);
-            this.textRenderer.drawWithShadow(matrixStack, currentSpeedText, client.getWindow().getScaledWidth()/2 - horizWidth/2, top, color);
+            context.drawTextWithShadow(this.textRenderer, currentVertSpeedText, client.getWindow().getScaledWidth()/2 - vertWidth/2, top - 10, vertColor);
+            context.drawTextWithShadow(this.textRenderer, currentSpeedText, client.getWindow().getScaledWidth()/2 - horizWidth/2, top, color);
         } else {
             // if the position is left/right justified, pass in the calculated position variables
-            this.textRenderer.drawWithShadow(matrixStack, currentVertSpeedText, vertLeft, top - 10, vertColor);
-            this.textRenderer.drawWithShadow(matrixStack, currentSpeedText, left, top, color);   
+            context.drawTextWithShadow(this.textRenderer, currentVertSpeedText, vertLeft, top - 10, vertColor);
+            context.drawTextWithShadow(this.textRenderer, currentSpeedText, left, top, color);   
         }
         return;
     }
