@@ -132,9 +132,6 @@ public class SqueedometerHud {
             }
         }
 
-        // Render the text
-        context.drawTextWithShadow(this.textRenderer, currentVertSpeedText, vertLeft, top - 10, vertColor);
-        context.drawTextWithShadow(this.textRenderer, currentSpeedText, left, top, color);
         if (ConfigWrapper.config.position == Position.TOP_MIDDLE) {
             top += paddingY;
 
