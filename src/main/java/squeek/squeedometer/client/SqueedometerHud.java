@@ -4,8 +4,9 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.render.RenderTickCounter;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import squeek.squeedometer.config.ConfigWrapper;
@@ -24,7 +25,7 @@ public class SqueedometerHud {
     private double lastFrameVertSpeed = 0.0;
     private float tickCounter = 0.0f;
 
-    public void draw(DrawContext context, float tickDelta) {
+    public void draw(DrawContext context, RenderTickCounter tickCounter) {
         MatrixStack matrixStack = context.getMatrices();
         this.client = MinecraftClient.getInstance();
         this.textRenderer = client.textRenderer;
@@ -38,8 +39,8 @@ public class SqueedometerHud {
 
         if (ConfigWrapper.config.changeColors) {
             // Every tick determine if speeds are increasing or decreasing and set color accordingly   
-            tickCounter += tickDelta;
-            if (tickCounter >= (float)ConfigWrapper.config.tickInterval) {
+            this.tickCounter += tickCounter.getTickDelta(false);
+            if (this.tickCounter >= (float) ConfigWrapper.config.tickInterval) {
                 if (currentSpeed < lastFrameSpeed) {
                     color = ConfigWrapper.config.deceleratingColor;
                 } else if (currentSpeed > lastFrameSpeed) {
@@ -58,7 +59,7 @@ public class SqueedometerHud {
 
                 lastFrameSpeed = currentSpeed;
                 lastFrameVertSpeed = currentVertSpeed;
-                tickCounter = 0.0f;
+                this.tickCounter = 0.0f;
             }
         }
 
